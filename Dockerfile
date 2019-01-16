@@ -7,10 +7,18 @@ MAINTAINER Kasper Luckow <kasper.luckow@sv.cmu.edu>
 RUN \
   apt-get update -y && \
   apt-get install software-properties-common -y && \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   add-apt-repository ppa:webupd8team/java -y && \
   apt-get update -y && \
-  apt-get install -y oracle-java8-installer
+  apt-get install -y wget unzip && \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  apt-get install -y oracle-java8-installer || true && \
+  cd /var/lib/dpkg/info && \
+  sed -i 's|JAVA_VERSION=8u191|JAVA_VERSION=8u201|' oracle-java8-installer.* && \
+  sed -i 's|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/|' oracle-java8-installer.* && \
+  sed -i 's|SHA256SUM_TGZ=.*|SHA256SUM_TGZ="cb700cc0ac3ddc728a567c350881ce7e25118eaf7ca97ca9705d4580c506e370"|' oracle-java8-installer.* && \
+  sed -i 's|J_DIR=jdk1.8.0_191|J_DIR=jdk1.8.0_201|' oracle-java8-installer.* && \
+  apt-get install -y oracle-java8-installer && \
+  apt-get install -y oracle-java8-set-default
 # Cut it in two---java takes a long time to install
 RUN  apt-get install -y \
                         unzip \
