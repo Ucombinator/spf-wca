@@ -52,6 +52,27 @@ $ docker ps
 $ docker cp <CID>:/path/to/csv/file/in/container /destination/on/hostmachine
 ```
 
+### IntelliJ Setup
+
+To get IntelliJ IDEA to work with the library takes a little bit of work. Make sure you first have the
+Oracle JDK 1.8 installed, and ensure you have already set up jpf-core and jpf-symbc.
+
+1. Open the spf-wca root directory in IntelliJ and allow it to finish
+indexing.
+2. Open the Project Structure dialog (CMD+; on a Mac).
+3. Click the Project tab on the left side. Set the Project SDK to be an Oracle JDK 1.8. (You may have to
+   configure this on your own if it hasn't been done already.)
+4. Click the Modules tab on the left side, then click the Sources tab in the middle.
+  1. Click Add Content Root and locate your jpf-core root directory on your computer. Add it.
+  2. Click Add Content Root and locate your jpf-symbc root directory on your computer. Add it.
+5. Click the Libraries tab on the left. Click the plus button to add a new library. Find the spf-wca root
+   directory, then the spf-wca/lib/ directory. Select all of the `.jar` files in the directory and add
+   them.
+6. Click OK.
+
+IntelliJ should now re-index the project. I'd recommend opening some of the source files to ensure all
+the dependency libraries have been successfully added.
+
 ## Usage 
 The Java PathFinder shell `wcanalysis.WorstCaseAnalyzer` can be used to set up Phase 1 (policy generation) and Phase 2 (guided search) of the analysis.
 The analysis can be performed by executing the JPF config file that specifies the parameters of the analysis, the constraint solver, the entry point of the system under analysis etc:
