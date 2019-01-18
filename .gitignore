@@ -1,1 +1,5 @@
 lib/*.jar
+build
+results
+.idea
+*.iml
