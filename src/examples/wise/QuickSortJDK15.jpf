@@ -41,7 +41,7 @@ symbolic.worstcase.input.max=20
 symbolic.wc.heuristic.termination=wcanalysis.heuristic.TimeBoundedTerminationStrategy
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/quicksort_results
+symbolic.worstcase.outputpath=${spf-wca}/results/quicksort_results
 
 symbolic.method=wise.java15.util.Arrays.sort(con)
 

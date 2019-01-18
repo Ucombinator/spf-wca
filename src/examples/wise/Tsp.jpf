@@ -38,6 +38,6 @@ symbolic.worstcase.policy.inputsize=3
 symbolic.worstcase.input.max=8
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/tsp_results
+symbolic.worstcase.outputpath=${spf-wca}/results/tsp_results
 
 symbolic.method=benchmarks.Tsp$TspSolver.solve()

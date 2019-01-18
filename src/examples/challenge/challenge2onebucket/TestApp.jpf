@@ -43,7 +43,7 @@ symbolic.worstcase.policy.inputsize=2
 symbolic.worstcase.input.max=10
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/challenge2onebucket_results_nosolver_bla
+symbolic.worstcase.outputpath=${spf-wca}/results/challenge2onebucket_results_nosolver_bla
 
 symbolic.method=challenge.challenge2onebucket.util.HashTable.get(con),challenge.challenge2onebucket.util.HashTable.put(con#con)
 symbolic.heuristic.measuredmethods=challenge.challenge2onebucket.util.HashTable.get(con)

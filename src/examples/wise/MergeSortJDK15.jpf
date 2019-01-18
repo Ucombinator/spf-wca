@@ -37,7 +37,7 @@ symbolic.worstcase.policy.inputsize=8
 symbolic.worstcase.input.max=50
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/merge_sort_results
+symbolic.worstcase.outputpath=${spf-wca}/results/merge_sort_results
 
 symbolic.method=wise.java15.util.Arrays.sort(con)
 

@@ -38,7 +38,7 @@ symbolic.worstcase.policy.inputsize=2
 symbolic.worstcase.input.max=12
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/bellman_results
+symbolic.worstcase.outputpath=${spf-wca}/results/bellman_results
 
 symbolic.method=wise.BellmanFord.runBellmanFord(con#con#con)
 

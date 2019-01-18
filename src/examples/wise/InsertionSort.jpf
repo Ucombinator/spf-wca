@@ -36,7 +36,7 @@ symbolic.worstcase.input.max=6
 symbolic.worstcase.req.maxres=20
 symbolic.worstcase.req.maxinputsize=5
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/insertion_sort_results
+symbolic.worstcase.outputpath=${spf-wca}/results/insertion_sort_results
 
 symbolic.wc.policy.history.size=0
 

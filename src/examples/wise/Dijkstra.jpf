@@ -39,7 +39,7 @@ symbolic.worstcase.policy.inputsize=3
 symbolic.worstcase.input.max=30
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/dijkstra_results
+symbolic.worstcase.outputpath=${spf-wca}/results/dijkstra_results
 
 symbolic.method=wise.Dijkstra.runDijkstra(con#con#con)
 

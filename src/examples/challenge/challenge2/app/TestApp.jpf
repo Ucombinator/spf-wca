@@ -42,7 +42,7 @@ symbolic.worstcase.policy.inputsize=4
 symbolic.worstcase.input.max=4
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/challenge2_results
+symbolic.worstcase.outputpath=${spf-wca}/results/challenge2_results
 
 symbolic.method=challenge.challenge2.util.HashTable.get(con),challenge2.util.HashTable.put(con#con)
 symbolic.heuristic.measuredmethods=challenge.challenge2.util.HashTable.get(con)

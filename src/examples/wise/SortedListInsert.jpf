@@ -38,7 +38,7 @@ symbolic.worstcase.policy.inputsize=3
 symbolic.worstcase.input.max=20
 
 symbolic.worstcase.verbose=true
-symbolic.worstcase.outputpath=${spf-wca}/sorted_list_insert_results
+symbolic.worstcase.outputpath=${spf-wca}/results/sorted_list_insert_results
 
 symbolic.method=benchmarks.SortedListInsert$List.insert(con),benchmarks.SortedListInsert$List.insertMask(con)
 symbolic.heuristic.measuredmethods=benchmarks.SortedListInsert$List.insert(con)
