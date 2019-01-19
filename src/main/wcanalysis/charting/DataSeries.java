@@ -80,4 +80,11 @@ public class DataSeries {
   public void setFunction(String function) {
     this.function = function;
   }
+
+  public void print() {
+    System.out.println("Series: " + seriesName);
+    for (int i = 0; i < size(); ++i) {
+      System.out.println(xs[i] + ", " + ys[i]);
+    }
+  }
 }
