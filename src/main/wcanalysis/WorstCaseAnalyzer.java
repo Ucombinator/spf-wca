@@ -31,10 +31,9 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.*;
 
 import gov.nasa.jpf.Config;
 import gov.nasa.jpf.JPF;
@@ -129,9 +128,9 @@ public class WorstCaseAnalyzer implements JPFShell {
       this.dataSeries.add(series);
     }
 
-    private void writeToFile(String filename) {
+    private void writeDataSeriesToFile(String filename) {
       try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8))) {
-        System.out.println("Writing data series to CSV file: " + filename);
+        logger.info("Writing data series to CSV file: " + filename);
         // Write header.
         writer.write("size,raw");
         for (DataSeries series : dataSeries) {
@@ -147,6 +146,22 @@ public class WorstCaseAnalyzer implements JPFShell {
           }
           writer.write("\n");
         }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    private void writeFunctionsToFile(String filename) {
+      try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8))) {
+        logger.info("Writing functions to file: " + filename);
+        StringJoiner nameJoiner = new StringJoiner(",");
+        StringJoiner functionJoiner = new StringJoiner(",");
+        for (DataSeries series : dataSeries) {
+          nameJoiner.add(series.getSeriesName());
+          functionJoiner.add(series.getFunction());
+        }
+        writer.write(nameJoiner.toString() + "\n");
+        writer.write(functionJoiner.toString() + "\n");
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -226,8 +241,10 @@ public class WorstCaseAnalyzer implements JPFShell {
   }
 
   public void writeToFile() {
-    Path outPath = FileSystems.getDefault().getPath(rootDir.getAbsolutePath(), "data_series.csv");
-    catalog.writeToFile(outPath.toString());
+    Path dataSeriesOutPath = FileSystems.getDefault().getPath(rootDir.getAbsolutePath(), "data_series.csv");
+    Path functionOutPath = FileSystems.getDefault().getPath(rootDir.getAbsolutePath(), "functions.csv");
+    catalog.writeDataSeriesToFile(dataSeriesOutPath.toString());
+    catalog.writeFunctionsToFile(functionOutPath.toString());
   }
 
   private void getPolicy(Config jpfConf) {
