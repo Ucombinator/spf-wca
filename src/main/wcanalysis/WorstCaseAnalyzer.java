@@ -25,7 +25,7 @@
 package wcanalysis;
 
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
