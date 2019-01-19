@@ -26,6 +26,10 @@ package wcanalysis;
 
 import java.awt.*;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,6 +96,8 @@ public class WorstCaseAnalyzer implements JPFShell {
   private int incr;
   private int startAt;
 
+  private SeriesCatalog catalog;
+
   public WorstCaseAnalyzer(Config config) {
     this.config = config;
     this.verbose = config.getBoolean(VERBOSE_CONF, true);
@@ -99,10 +105,51 @@ public class WorstCaseAnalyzer implements JPFShell {
     this.serializedDir = Util.createDirIfNotExist(rootDir, "serialized");
     this.startAt = config.getInt(START_AT_CONF, 1);
     this.incr = config.getInt(INCR_CONF, 1);
+    this.catalog = new SeriesCatalog();
     if (verbose) {
       this.auxDir = Util.createDirIfNotExist(rootDir, "verbose");
       this.policyDir = Util.createDirIfNotExist(auxDir, "policy");
       this.heuristicDir = Util.createDirIfNotExist(auxDir, "heuristic");
+    }
+  }
+
+  private class SeriesCatalog {
+    private DataSeries rawSeries;
+    private ArrayList<DataSeries> dataSeries;
+
+    private SeriesCatalog() {
+      dataSeries = new ArrayList<>();
+    }
+
+    private void addRawSeries(DataSeries rawSeries) {
+      this.rawSeries = rawSeries;
+    }
+
+    private void addDataSeries(DataSeries series) {
+      this.dataSeries.add(series);
+    }
+
+    private void writeToFile(String filename) {
+      try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8))) {
+        System.out.println("Writing data series to CSV file: " + filename);
+        // Write header.
+        writer.write("size,raw");
+        for (DataSeries series : dataSeries) {
+          writer.write("," + series.getSeriesName());
+        }
+        writer.write("\n");
+        // Write rows.
+        int numRows = rawSeries.size();
+        for (int row = 0; row < numRows; ++row) {
+          writer.write(rawSeries.getX()[row] + "," + rawSeries.getY()[row]);
+          for (DataSeries series : dataSeries) {
+            writer.write("," + series.getY()[row]);
+          }
+          writer.write("\n");
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -158,20 +205,29 @@ public class WorstCaseAnalyzer implements JPFShell {
     Collection<DataSeries> predictionSeries = FunctionFitter.computePredictionSeries(xs, ys,
         predictionModelSize);
 
-    for(DataSeries series : predictionSeries) {
-      chartBuilder.addSeries(series);
-    }
-
     DataSeries rawSeries = new DataSeries("Raw", xs.length);
     for(int i = 0; i < xs.length; i++) {
       rawSeries.add(xs[i], ys[i]);
     }
+    catalog.addRawSeries(rawSeries);
     chartBuilder.setRawSeries(rawSeries);
+
+    for(DataSeries series : predictionSeries) {
+      chartBuilder.addSeries(series);
+      catalog.addDataSeries(series);
+    }
+
+    writeToFile();
 
     WorstCaseChart chart = chartBuilder.build();
     chart.setPreferredSize(new Dimension(1024, 768));
     chart.pack();
     chart.setVisible(true);
+  }
+
+  public void writeToFile() {
+    Path outPath = FileSystems.getDefault().getPath(rootDir.getAbsolutePath(), "data_series.csv");
+    catalog.writeToFile(outPath.toString());
   }
 
   private void getPolicy(Config jpfConf) {
