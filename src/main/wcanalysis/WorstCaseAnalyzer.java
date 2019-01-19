@@ -153,7 +153,7 @@ public class WorstCaseAnalyzer implements JPFShell {
 
     private void writeFunctionsToFile(String filename) {
       try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8))) {
-        logger.info("Writing functions to file: " + filename);
+        logger.info("Writing functions to CSV file: " + filename);
         StringJoiner nameJoiner = new StringJoiner(",");
         StringJoiner functionJoiner = new StringJoiner(",");
         for (DataSeries series : dataSeries) {
